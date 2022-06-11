@@ -30,9 +30,9 @@ password = input("Type smtp password: ")
 print("")
 print("")
 
-bank=input("Name of bank: ")
-text_message=input("THe message to send dont add link: ")
-link=input("Link to scama: ")
+
+text_message=input("Text to send: ")
+
 
 #code to collect list file
 
@@ -48,10 +48,7 @@ lines = file.readlines()
 for index,line in enumerate(lines):
     receiver_email=("{}".format( line.strip()))
     
-    message = f"""\
-    Subject: {bank}
-
-    {text_message} {link}."""
+    
 
     context = ssl.create_default_context()
     try:
@@ -60,7 +57,7 @@ for index,line in enumerate(lines):
         server.starttls(context=context)
         server.ehlo()  # Can be omitted
         server.login(sender_email, password)
-        server.sendmail(sender_email,receiver_email,message)
+        server.sendmail(sender_email,receiver_email,text_message)
         print (receiver_email + " -- Sent")
     except Exception as ex:
         print (receiver_email+ " -- Not Sent",ex)
