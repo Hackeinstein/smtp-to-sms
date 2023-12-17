@@ -12,13 +12,13 @@ try:
     server.ehlo()
     server.starttls(context = context)
     server.ehlo()
-    server.login(user="info@ect-wortmeier.de", password="083279h1")
+    server.login(user="#", password="#")
     msg = message.Message()
     msg.add_header('from', "GATECITY")
-    msg.add_header('to', "darkwebdeity@gmail.com")
+    msg.add_header('to', "#")
     msg.add_header('subject', "atl jacob")
     msg.set_payload("falling out of love with you")
-    server.send_message(msg, from_addr="info@ect-wortmeier.de", to_addrs=["3057998394@txt.att.net"])
+    server.send_message(msg, from_addr="info@ect-wortmeier.de", to_addrs=["#"])
 except Exception as ex:
     print(ex)
 
