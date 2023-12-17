@@ -1,5 +1,6 @@
 import smtplib,ssl
 import json
+import certifi
 
 #lfuaytabwtlqxzka
 
@@ -50,7 +51,7 @@ for index,line in enumerate(lines):
     
     
 
-    context = ssl.create_default_context()
+    context = ssl.create_default_context(cafile=certifi.where())
     try:
         server = smtplib.SMTP(smtp_server, port) 
         server.ehlo()  # Can be omitted
