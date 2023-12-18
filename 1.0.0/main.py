@@ -15,7 +15,7 @@ import numpy as np
 
 #set super variaables
 CONTEXT = ssl.create_default_context(cafile=certifi.where())
-print("WELCOME TO SMTP TO SMS TOOL")
+print(Fore.YELLOW+"WELCOME TO SMTP TO SMS TOOL")
 print("")
 print("This too is used to send messages to sms using smtp")
 print("It uses the gateway system provide my sim carrier")
@@ -26,17 +26,17 @@ init()
 
 #set functions and import lists
 #company list
-with open("./modules/contents/company.txt","r")as company_file:
+with open("./contents/company.txt","r")as company_file:
     company_list=company_file.readlines()
     company_list=[company.strip("\n") for company in company_list]
 
 #list of charge vocubalaries
-with open("./modules/contents/words.txt","r")as words_file:
+with open("./contents/words.txt","r")as words_file:
     word_list=words_file.readlines()
     word_list=[word.strip("\n") for word in word_list]
 
 #get list of links
-with open("./modules/contents/link.txt","r")as links_file:
+with open("./contents/link.txt","r")as links_file:
     link_list=links_file.readlines()
     link_list=[link.strip("\n") for link in link_list]
 
@@ -118,7 +118,7 @@ if multi_smtp=="y":
     
 
     #split smtp
-    with open("./modules/contents/smtp.txt", "r") as file:
+    with open("./contents/smtp.txt", "r") as file:
         smtp_list = file.readlines()
         # strip \n
         smtp_list = [item.strip("\n") for item in smtp_list]
@@ -187,7 +187,7 @@ else:
         leads=[lead.strip("\n") for lead in leads]
     
     #load smtp file
-    with open("./modules/contents/smtp.txt", "r") as smtp_file:
+    with open("./ncontents/smtp.txt", "r") as smtp_file:
         smtp_list = smtp_file.readlines()
         # strip \n
         smtp_list = [item.strip("\n") for item in smtp_list]
