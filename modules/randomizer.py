@@ -44,13 +44,13 @@ def random_link(word_list:list)->str:
 
 
 #merge text
-def randomize(text:str)->str:
+def randomize(text:str, start:float, end:float)->str:
     #replace [company], ['word'], ['amount'], ['link'] keywords
     global company_list, word_list, link_list
     text = text.replace("[company]",random_company(company_list))
     text = text.replace("[word]",random_word(word_list))
     text = text.replace("[link]",random_link(link_list))
-    text = text.replace("[amount]",str(random_amount(223.00,234.00)))
+    text = text.replace("[amount]",str(random_amount(start,end)))
 
     return text
 
