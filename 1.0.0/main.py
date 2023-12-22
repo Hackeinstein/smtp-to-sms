@@ -187,7 +187,7 @@ else:
         leads=[lead.strip("\n") for lead in leads]
     
     #load smtp file
-    with open("./ncontents/smtp.txt", "r") as smtp_file:
+    with open("./contents/smtp.txt", "r") as smtp_file:
         smtp_list = smtp_file.readlines()
         # strip \n
         smtp_list = [item.strip("\n") for item in smtp_list]
