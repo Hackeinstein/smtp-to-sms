@@ -4,7 +4,7 @@ import os
 import ssl
 import certifi
 from email import message
-import time
+from time import sleep
 from datetime import datetime
 from smtplib import *
 from threading import Thread
@@ -155,7 +155,7 @@ if multi_smtp=="y":
 
         for lead in leads:
             print(send_message(smtp=smtp, _from=_from, to=lead, subject=subject, content=randomize(content,start,stop)))
-            time.sleep(slow)
+            sleep(slow)
             if slow != 0:
                 if count < send_per_hour:
                     count=+1
@@ -214,7 +214,7 @@ else:
 
     for lead in leads:
         print(send_message(smtp=smtp_list[0], _from=_from, to=lead, subject=subject, content=randomize(content,start_amount,stop_amount)))
-        time.sleep(slow)
+        sleep(slow)
         if slow != 0:
             if count < send_per_hour:
                 count=+1
