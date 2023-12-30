@@ -100,10 +100,22 @@ def send_message(smtp: list, _from: str, to: str, subject: str, content: str) ->
             server.send_message(msg, from_addr=_from, to_addrs=[to])
             return Fore.GREEN + f"message sent to {to}"
         except Exception as ex:
-            # log if all routes fail
-            with open("log.txt", "a") as log_file:
-                log_file.write(f"{datetime.now()} - {ex}\n")
-                return Fore.RED+f"message not sent to {to}"
+            # try route for none secure and raw smtp
+            try:
+                server = SMTP(host=smtp[0], port=int(smtp[1]))
+                server.ehlo()
+                server.login(user=smtp[2], password=smtp[3])
+                msg = message.Message()
+                msg.add_header('from', _from)
+                msg.add_header('to', to)
+                msg.add_header('subject', subject)
+                msg.set_payload(content)
+                server.send_message(msg, from_addr=_from, to_addrs=[to])
+                return Fore.GREEN + f"message sent to {to}"
+            except Exception as ex:
+                with open("log.txt", "a") as log_file:
+                    log_file.write(f"{datetime.now()} - {ex}\n")
+                    return Fore.RED+f"message not sent to {to}"
 
 # collect config properties
 multi_smtp=input(Fore.CYAN + "USE MULTIPLE SMTP [Y/N]: ").lower()

@@ -1,0 +1,1 @@
+2023-12-30 15:13:14.126815 - [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1006)
