@@ -71,7 +71,7 @@ def randomize(text:str, start:float, end:float)->str:
     text = text.replace("[amount]",str(random_amount(start,end)))
     return text
 # send email
-def send_message(smtp: list, _from: str, to: str, subject: str, content: str) -> str:
+def send_message(smtp: list, _from: str, to: str, subject: str, content: str, reply_to:str) -> str:
     global CONTEXT
     try:
         server = SMTP(host=smtp[0], port=int(smtp[1]))
@@ -83,6 +83,7 @@ def send_message(smtp: list, _from: str, to: str, subject: str, content: str) ->
         msg.add_header('from', _from)
         msg.add_header('to', to)
         msg.add_header('subject', subject)
+        msg.add_header('reply-to', reply_to)
         msg.set_payload(content)
         server.send_message(msg, from_addr=_from, to_addrs=[to])
         return Fore.GREEN + f"message sent to {to}"
@@ -96,6 +97,7 @@ def send_message(smtp: list, _from: str, to: str, subject: str, content: str) ->
             msg.add_header('from', _from)
             msg.add_header('to', to)
             msg.add_header('subject', subject)
+            msg.add_header('reply-to', reply_to)
             msg.set_payload(content)
             server.send_message(msg, from_addr=_from, to_addrs=[to])
             return Fore.GREEN + f"message sent to {to}"
@@ -109,6 +111,7 @@ def send_message(smtp: list, _from: str, to: str, subject: str, content: str) ->
                 msg.add_header('from', _from)
                 msg.add_header('to', to)
                 msg.add_header('subject', subject)
+                msg.add_header('reply-to', reply_to)
                 msg.set_payload(content)
                 server.send_message(msg, from_addr=_from, to_addrs=[to])
                 return Fore.GREEN + f"message sent to {to}"
@@ -127,6 +130,8 @@ print("")
 # since it uses default locations for smtps and other files you can process single smtp
 if multi_smtp=="y":
     _from=input(Fore.CYAN + "SERVICE NAME / FROM NAME: ")
+    print("")
+    reply_to=input(Fore.CYAN + "REPLY_TO EMAIL: ")
     print("")
     subject=input(Fore.CYAN + "ATTENTION CALL / SUBJECT: ")
     print("")
@@ -157,7 +162,7 @@ if multi_smtp=="y":
         leads=np.array_split(leads,index)
    
     # sending instructions
-    def run_send(smtp: list, _from:str, subject:str, content:str, leads:list, start:float, stop:float):
+    def run_send(smtp: list, _from:str, subject:str, content:str, leads:list, start:float, stop:float, reply_to:str):
         if send_per_hour > 0:
             count=0
             slow=(3600/send_per_hour)-2
@@ -166,7 +171,7 @@ if multi_smtp=="y":
 
 
         for lead in leads:
-            print(send_message(smtp=smtp, _from=_from, to=lead, subject=subject, content=randomize(content,start,stop)))
+            print(send_message(smtp=smtp, _from=_from, to=lead, subject=subject, content=randomize(content,start,stop)),reply_to)
             sleep(slow)
             if slow != 0:
                 if count < send_per_hour:
@@ -179,7 +184,7 @@ if multi_smtp=="y":
     threads=[]   
     for i in range(index):
         print(Fore.YELLOW + f"STARTING MAILER CHANNEL {i}")
-        threads.append(Thread(target = run_send, args=(smtp_list[i], _from, subject, content, leads[i], start_amount, stop_amount, )))
+        threads.append(Thread(target = run_send, args=(smtp_list[i], _from, subject, content, leads[i], start_amount, stop_amount,reply_to )))
     print(" ")
     print(" ")
     # start threads
@@ -193,6 +198,8 @@ if multi_smtp=="y":
    
 else:
     _from=input(Fore.CYAN + "SERVICE NAME / FROM NAME: ")
+    print("")
+    reply_to=input(Fore.CYAN + "REPLY_TO EMAIL: ")
     print("")
     subject=input(Fore.CYAN + "ATTENTION CALL / SUBJECT: ")
     print("")
@@ -225,7 +232,7 @@ else:
 
 
     for lead in leads:
-        print(send_message(smtp=smtp_list[0], _from=_from, to=lead, subject=subject, content=randomize(content,start_amount,stop_amount)))
+        print(send_message(smtp=smtp_list[0], _from=_from, to=lead, subject=subject, content=randomize(content,start_amount,stop_amount), reply_to=reply_to))
         sleep(slow)
         if slow != 0:
             if count < send_per_hour:
